@@ -35,9 +35,8 @@ $app = new Slim(array(
 $app->view()->setData('rootUri', $app->request()->getRootUri() );
 
 // GET routes
-$app->get('/', function ($name) use ($app) {
-    return $app->render('index.html', array('name' => $name ));
-});
+$app->get('/', function () use ($app) { return $app->render('home.html'); });
+$app->get('/about', function () use ($app) { return $app->render('about.html'); });
 
 $app->get('/test/:name', function ($name) use ($app) {
     return $app->render('index.html', array('name' => $name ));
