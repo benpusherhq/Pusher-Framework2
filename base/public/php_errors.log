@@ -1,0 +1,36 @@
+[22-Apr-2012 21:40:34] PHP Parse error:  syntax error, unexpected T_CONSTANT_ENCAPSED_STRING, expecting ')' in C:\pusher\Pusher-Framework\base\lib\Naan\App.php on line 10
+[22-Apr-2012 21:45:06] SQLSTATE[28000] [1045] Access denied for user 'naan_user'@'localhost' (using password: YES)
+[22-Apr-2012 21:45:30] SQLSTATE[28000] [1045] Access denied for user 'naan_user'@'localhost' (using password: YES)
+[22-Apr-2012 21:45:31] SQLSTATE[28000] [1045] Access denied for user 'naan_user'@'localhost' (using password: YES)
+[22-Apr-2012 21:45:32] SQLSTATE[28000] [1045] Access denied for user 'naan_user'@'localhost' (using password: YES)
+[22-Apr-2012 21:46:45] SQLSTATE[28000] [1045] Access denied for user 'naan_user'@'localhost' (using password: YES)
+[22-Apr-2012 21:47:28] SQLSTATE[28000] [1045] Access denied for user 'naan_user'@'localhost' (using password: YES)
+[22-Apr-2012 21:48:14] PHP Parse error:  syntax error, unexpected ';', expecting ')' in C:\pusher\Pusher-Framework\base\routes\api\internal\routes_api_internal.php on line 20
+[22-Apr-2012 21:48:23] SQLSTATE[28000] [1045] Access denied for user 'naan_user'@'localhost' (using password: YES)
+[22-Apr-2012 21:48:37] SQLSTATE[28000] [1045] Access denied for user 'naan_user'@'localhost' (using password: YES)
+[22-Apr-2012 21:49:27] TEST 123
+[22-Apr-2012 21:49:42] TEST 123
+[22-Apr-2012 21:49:43] TEST 123
+[22-Apr-2012 21:49:43] TEST 123
+[22-Apr-2012 22:06:05] TEST 123
+[22-Apr-2012 22:07:36] PHP Fatal error:  Call to undefined method Slim_Http_Request::redirect() in C:\pusher\Pusher-Framework\base\routes\api\routes_api.php on line 20
+[22-Apr-2012 22:07:58] 
+[22-Apr-2012 22:10:07] HPE
+[22-Apr-2012 22:10:07] 
+[22-Apr-2012 22:10:09] HPE
+[22-Apr-2012 22:10:09] 
+[22-Apr-2012 22:10:14] 
+[22-Apr-2012 22:10:15] 
+[22-Apr-2012 22:10:16] 
+[22-Apr-2012 22:10:18] 
+[22-Apr-2012 22:12:36] TEST 123
+[22-Apr-2012 22:22:22] Missing argument 3 for naan_db_add_row(), called in C:\pusher\Pusher-Framework\base\routes\api\routes_api.php on line 28 and defined
+[22-Apr-2012 22:23:03] 
+[22-Apr-2012 22:27:52] PHP Fatal error:  Uncaught exception 'ErrorException' with message 'Undefined variable: user_id' in C:\pusher\Pusher-Framework\base\lib\Naan\App.php:24
+Stack trace:
+#0 C:\pusher\Pusher-Framework\base\lib\Naan\App.php(24): Slim::handleErrors(8, 'Undefined varia...', 'C:\pusher\Pushe...', 24, Array)
+#1 c:\pusher\Pusher-Framework\base\public\index.php(53): app_get_current_user()
+#2 {main}
+  thrown in C:\pusher\Pusher-Framework\base\lib\Naan\App.php on line 24
+[22-Apr-2012 22:28:18] PHP Fatal error:  Call to a member function render() on a non-object in c:\pusher\Pusher-Framework\base\public\index.php on line 0
+[22-Apr-2012 22:33:18] 

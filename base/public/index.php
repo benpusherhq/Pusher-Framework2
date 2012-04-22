@@ -21,6 +21,13 @@ TwigView::$twigOptions = array(
     'autoescape' => true
 );
 
+// use standard php sessions
+if(!isset($_SESSION)) 
+{ 
+    session_cache_limiter(false);
+    session_start();
+}
+
 $app = new Slim(array(
     'debug' => true,
     'log.enabled' => true,
@@ -30,17 +37,43 @@ $app = new Slim(array(
 ));
 
 //
+//
+//
+require_once "../lib/Naan/Naan.php";
+require_once "../lib/Naan/App.php";
+
+
+//
 // Useful variables available to all view templates
 //
+$app->view()->setData('hostUri', $app->request()->getScheme() . "://" . $app->request()->getHost() . $app->request()->getRootUri() );
 $app->view()->setData('rootUri', $app->request()->getRootUri() );
 
-// GET routes
-$app->get('/', function () use ($app) { return $app->render('home.html'); });
+$app->view()->setData('userId', 	naan_current_user_id() );
+$app->view()->setData('user', 		app_get_current_user() );
+
+require_once "../routes/api/internal/routes_api_internal.php";
+require_once "../routes/api/routes_api.php";
+
+//===========================================================================//
+// Routes table
+//===========================================================================//
+
+$app->get('/', 				'routes_get_page_home');
 $app->get('/about', function () use ($app) { return $app->render('about.html'); });
 
 $app->get('/test/:name', function ($name) use ($app) {
     return $app->render('index.html', array('name' => $name ));
 });
+
+function routes_get_page_home()
+{
+	global $app;
+	$data = array(
+		'userDataString'	=> print_r(app_get_current_user(), true)
+	);
+	return $app->render('home.html', $data);
+}
 
 //
 // JSON API 

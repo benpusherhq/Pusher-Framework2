@@ -14,8 +14,37 @@
           This is a test of the Pusher Framework.
        </p>      
        
-       <div>
-       </div>
+	   <h2>Server-side</h2>
+	   
+	   <ul>
+		<li><a href="{{rootUri}}/api/internal/createdatabase">Create Database</a></li>
+		<li>Login as user 
+			{% for i in 1..8 %}
+			/ <a href="{{rootUri}}/api/login/{{i}}">User {{i}}</a>
+			{% endfor %}
+		</li>
+	   </ul>
+	   
+	   <h4>Slim/Twig Variables</h4>
+	   
+	   <h5>Global Static</h5>
+	   <dl class="dl-horizontal">
+			<dt>rootUri</dt><dd>{{rootUri}}</dd>
+			<dt>hostUri</dt><dd>{{hostUri}}</dd>
+	   </dl>
+	   <h5>Global Dynamic</h5>
+	   <dl class="dl-horizontal">
+			<dt>userId</dt><dd>{{userId}}</dd>
+	   </dl>
+	   <h5>Page</h5>
+	   <dl class="dl-horizontal">
+			<dt>user.first_name</dt><dd>{{user.first_name}}</dd>
+			<dt>user.last_name</dt><dd>{{user.last_name}}</dd>
+			<dt>userDataString</dt><dd>{{userDataString}}</dd>
+	   </dl>
+	   
+	   
+       <h2>Client-Side UI</h2>
        
        <h4>Slider Messages</h4>
        <style>
