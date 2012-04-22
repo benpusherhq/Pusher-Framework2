@@ -38,8 +38,18 @@
 	   </dl>
 	   <h5>Page</h5>
 	   <dl class="dl-horizontal">
-			<dt>user.first_name</dt><dd>{{user.first_name}}</dd>
-			<dt>user.last_name</dt><dd>{{user.last_name}}</dd>
+			<dt>user.first_name</dt>
+			<dd>
+				<input id="field-user-first_name" type="text" value="{{user.first_name}}" />
+				<a id="button-user-first_name" class="btn btn-mini btn-primary">update</a>
+			</dd>
+			
+			<dt>user.last_name</dt>
+			<dd>
+				<input id="field-user-last_name" type="text" value="{{user.last_name}}" />
+				<a id="button-user-last_name" class="btn btn-mini btn-primary">update</a>
+			</dd>
+			
 			<dt>userDataString</dt><dd>{{userDataString}}</dd>
 	   </dl>
 	   
@@ -87,6 +97,25 @@
                 $("#add-info").click(function() { naan.info("Hello World!"); return false; });
                 $("#add-success").click(function() { naan.success("Hello World!"); return false; });
                 $("#add-error").click(function() { naan.error("Hello World!"); return false; });
+				
+				$("#button-user-first_name").click(function() {
+					var data = {
+						first_name : $("#field-user-first_name").val()
+					};
+					naan.ajaxPutJSON("/api/user", data, function(json) {
+						naan.success("Success!");
+					});
+					return false;
+				});
+				$("#button-user-last_name").click(function() {
+					var data = {
+						last_name : $("#field-user-last_name").val()
+					};
+					naan.ajaxPutJSON("/api/user", data, function(json) {
+						naan.success("Success!");
+					});
+					return false;
+				});
             });
        -->
        </script>

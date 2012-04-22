@@ -5,6 +5,7 @@
 //===========================================================================//
 
 $app->get	('/api/login/:user_id',			'routes_get_api_login');
+$app->put	('/api/user',					'routes_put_api_user');
 
 //===========================================================================//
 // Routing functions
@@ -43,4 +44,19 @@ function routes_get_api_login($user_id)
 			)
 		));
 	}
+}
+
+
+function routes_put_api_user()
+{
+	global $app;
+	
+	$user_id = naan_current_user_id();
+	$data = $app->request()->params('data');
+	
+	naan_db_update_row("users", array('id' => $user_id), $data);
+	
+	echo json_encode(array(
+		'success' => 1
+	));
 }
