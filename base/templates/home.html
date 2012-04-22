@@ -1,6 +1,9 @@
 {% extends '_layout.html' %}
 
 {% block content %}
+    
+    {% include "common/naan-slide-messages.html" %}
+    
    <div class="page-header">
     <h1>Home</h1>
    </div>
@@ -11,6 +14,22 @@
           This is a test of the Pusher Framework.
        </p>      
        
+       <div>
+       </div>
+       
+       <h4>Slider Messages</h4>
+       <style>
+        ul.list-spacing-medium li
+        {
+            margin-top: .5em;
+        }
+       </style>
+       <ul class="unstyled list-spacing-medium">        
+           <li><a class="btn btn-info" id="add-info">Add Info Message</a></li>
+           <li><a class="btn btn-success" id="add-success">Add Success Message</a></li>
+           <li><a class="btn btn-danger" id="add-error">Add Error Message</a></li>
+       </ul>
+
        
     </div>
     <div class="span4">
@@ -26,6 +45,22 @@
           <li>JQuery</li>
           <li>Bootstrap <i class="icon-glass" style="color: red"></i></li>
        </ul>
+                   
     </div>
    </div>
 {% endblock %}
+
+{% block script_content %}
+
+       <script type="text/javascript">
+       <!--
+            $(function() {
+                $("#add-info").click(function() { naan.info("Hello World!"); return false; });
+                $("#add-success").click(function() { naan.success("Hello World!"); return false; });
+                $("#add-error").click(function() { naan.error("Hello World!"); return false; });
+            });
+       -->
+       </script>
+       
+{% endblock %}
+

@@ -38,10 +38,13 @@
         {% block content %} {% endblock %}
       </div>
       
-    <!-- 
+    <!-------------------------------------------------------------------------
         Javascript
-    -->
+    -------------------------------------------------------------------------->    
     <script src="{{rootUri}}/lib/jquery/jquery-1.7.2.min.js"></script>
+    <script src="{{rootUri}}/lib/naan/naan-slide-messages.js"></script>
+  
+    {% block script_content %} {% endblock %}
   
    </body>
 </html>
