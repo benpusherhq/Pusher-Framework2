@@ -57,6 +57,7 @@ $app->view()->setData('userId',     naan_current_user_id() );
 $app->view()->setData('user',       app_get_current_user() );
 
 require_once "../routes/pages/routes_pages.php";
+require_once "../routes/partials/routes_partials.php";
 
 require_once "../routes/api/routes_api.php";
 require_once "../routes/api/internal/routes_api_internal.php";

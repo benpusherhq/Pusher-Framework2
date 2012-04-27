@@ -1,0 +1,77 @@
+{% extends '_layout.html' %}
+
+{% block content %}
+    
+    {% include "common/naan-slide-messages.html" %}
+    
+   <div class="page-header">
+    <h1>Tasks</h1>
+   </div>
+   
+   <div class="row">
+    <div class="span8">
+       
+
+        <div id="info-tasks-page" data-title="Pusher Framework Tasks Page">
+        <p>
+            The tasks page is intended to demonstrate simple database actions for 
+            live adding, editing, and searching over a simple database using the
+            Pusher Framework functionality.
+        </p>      
+        </div>
+       
+       
+       
+       <form id="new-task" class="well form-inline">
+          <label>Task Name</label>
+          <input type="text" class="input-large" placeholder="Enter task name">          
+          <button type="submit" class="btn">Add</button>
+       </form>
+       
+       <div id="task-table-container">
+       </div>
+       
+    </div>
+    <div class="span4">
+        <p class="label label-info">Info</p>
+        <p>
+            <a class="naan-info" href="#info-tasks-page">Show info boxes for this page </a>
+        </p>
+    </div>
+   </div>
+{% endblock %}
+
+{% block script_content %}
+
+<script type="text/javascript">
+<!--
+    $(function() {
+        function reload_tasks() 
+        {
+            $("#task-table-container").load(rootUri + "/partials/tasktable");
+        }
+        
+        $("#new-task").submit(function() {
+            var $fieldName = $(this).find("input[type='text']");
+            var data = 
+            {
+                user_id : "{{userId}}",
+                name    : $fieldName.val()
+            };
+            if (data.name.length > 0)
+            {
+                naan.ajaxPostJSON("/api/db/post/tasks", data, function() {
+                    $fieldName.val("");
+                    reload_tasks();
+                });      
+            }      
+            return false;
+        });
+        
+        reload_tasks();
+    });
+-->
+</script>
+       
+{% endblock %}
+

@@ -64,6 +64,37 @@ function naan_db_get_row ($tableName, $row)
         throw $e;
     }
 }
+
+function naan_db_get_rows ($tableName, $row)
+{
+    $sqlWhere = "WHERE ";
+    $index = 0;
+    $count = count((array)$row);
+    foreach ($row as $key => $value)
+    {
+        $sqlWhere .= "$key=:$key";
+        
+        if (++$index < $count)
+            $sqlWhere .= " AND ";
+    }
+    
+    try 
+    {
+        $db = naan_db_connect();
+        
+        $stmt = $db->prepare("SELECT * FROM $tableName $sqlWhere");
+        foreach ($row as $key => $value)
+            $stmt->bindValue(":$key", $value);
+        $stmt->execute();
+        
+        $obj = $stmt->fetchAll();
+        $db = null;
+        return $obj;
+    }
+    catch (PDOException $e) {
+        throw $e;
+    }
+}
     
 //
 //

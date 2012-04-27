@@ -7,6 +7,8 @@
 $app->put	('/api/user',					'routes_put_api_user');
 $app->post  ('/api/login2',                 'routes_post_api_login2');
 
+$app->post  ('/api/db/post/:table',         'routes_post_api_db_post');
+
 //===========================================================================//
 // Routing functions
 //===========================================================================//
@@ -116,4 +118,23 @@ function routes_put_api_user()
     echo json_encode(array(
         'success' => 1
     ));
+}
+
+function routes_post_api_db_post($table)
+{
+    try
+    {
+        global $app;
+        $data = $app->request()->params('data');        
+        naan_db_add_row($table, $data);
+        return naan_json_success();
+        
+    } catch (Exception $e)
+    {
+        return naan_json_error("PHP Exception", array(
+            'function' => __FUNCTION__,
+            'message' => $e->getMessage(),
+            'trace' => $e->getTrace()
+        ));
+    }
 }

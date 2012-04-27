@@ -1,0 +1,50 @@
+<!-- naan-info -->
+
+<script id="naan-template" type="text/plain">            
+    <div class="alert alert-info" style="display:none">
+        <h3 class="pull-right" style="margin-right: -1em; margin-top: -.5em"><a href="#">x</a></h3>
+        <div style="margin-bottom: 1em">
+            <span class="label label-info" style="padding-right: 6em">
+                <i class="icon-info-sign icon-white"> </i>
+                <span class="naan-info-title" style="padding-left: 1em">Additional Information</span>
+            </span>
+        </div>            
+        <div class="naan-info-content">
+        </div>
+    </div>                     
+</script>
+
+<script>
+<!--
+$(function() {
+    $(".naan-info").each(function() {
+        var $this = $(this);
+        var id = $this.attr("href");
+        var $info = $(id);
+        var title = $info.attr("data-title");
+        
+        $this.attr("title", "click for more information");
+        $this.append("<i class='icon-info-sign icon-color'> </i>");
+        
+        // Wrap the original element in the template
+        var $template = $( $("#naan-template").text() );
+        $info.attr("id", id + "-inner");
+        $info.replaceWith($template);
+        $template.find(".naan-info-content").append($info);
+        $template.find(".naan-info-title").text(title);
+        //$template.hide();
+        
+        // Hook in the display toggle
+        $(this).click(function() {
+            console.log(id, title);
+            $template.slideToggle();
+        });
+        $template.find(".pull-right").click(function() {
+            $template.slideUp();
+            return false;
+        });
+        
+    });
+});
+-->
+</script>

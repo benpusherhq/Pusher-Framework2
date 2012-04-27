@@ -7,6 +7,7 @@
 $app->get('/',                  'routes_get_landing');
 $app->get('/home',              'routes_get_home');
 $app->get('/architecture',      'routes_get_architecture');
+$app->get('/tools/tasks',       'routes_get_tools_tasks');
 
 //===========================================================================//
 // Routing functions
@@ -31,5 +32,11 @@ function routes_get_architecture()
 {
     global $app;
     return $app->render('architecture.html'); 
+}
+
+function routes_get_tools_tasks()
+{
+    global $app;
+    return $app->render('tasks.html'); 
 }
 
