@@ -11,11 +11,13 @@ if (!window.naan) window.naan = {};
         notification.
      */
     naan.error = function(message) {
-        console.log("Error", message);
-        if (message.match(/^<[A-Za-z]+\s*\/?>/))
-            $("#naan-error-list").append( $("<li/>").html(message) );
-        else
-            $("#naan-error-list").append( $("<li/>").text(message) );
+        if (message)
+        {
+            if (message.match(/^<[A-Za-z]+\s*\/?>/))
+                $("#naan-error-list").append( $("<li/>").html(message) );
+            else
+                $("#naan-error-list").append( $("<li/>").text(message) );
+        }
         $("#naan-error-section").show();   
     };
 

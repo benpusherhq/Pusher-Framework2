@@ -15,11 +15,15 @@
    </div>
    
    <div style="margin-top: 2em" >
+        <a class="login btn btn-primary btn-large" href="#modal-login" data-toggle="modal">Custom Login</a>
+        
+        <p style="text-align: center">(The buttons below don't do anything yet...)</p>
         <a class="login button google" href="{{rootUri}}/home"></a>
         <a class="login button facebook" href="{{rootUri}}/home"></a>
-        <a class="login button twitter" href="{{rootUri}}/home" ></a>
-        <p style="text-align: center">(These buttons don't do anything yet...)</p>
+        <a class="login button twitter" href="{{rootUri}}/home"></a>
    </div>
+   
+   {% include 'modal-login.html' %}
      
 {% endblock %}
 

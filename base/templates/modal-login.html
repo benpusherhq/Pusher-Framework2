@@ -1,0 +1,57 @@
+<div class="modal fade" id="modal-login" style="" >
+
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">x</a>
+    <h1>Custom Login</h1>
+    <p class="help-block">
+        This is a placeholder login that for easily creating and logging in as 
+        particular users.  This is intended for development use only
+        as it does not include any form of password protection.
+    </p>
+  </div>
+  
+  <div class="modal-body">
+    <form class="form-horizontal" id="login-form">
+        <fieldset>
+          
+              <div class="control-group">
+                <label class="control-label" for="input01">E-mail Address</label>
+                <div class="controls">
+                  <input id="form-email" type="text" class="input-xlarge" style="width: 22em" placeholder="Enter your e-mail address here" value="">
+                    <p class="help-block">
+                        If the e-mail address is already in the users database, the login will succeed.  Otherwise,
+                        the page will redirect to a page create a new user.
+                    </p>
+                </div>
+                
+              </div>
+        </fieldset>
+      </form>
+  </div>
+  
+  <div class="modal-footer">
+    <button id="button-login-submit" type="submit" class="btn btn-primary">Login</button>
+    <button id="button-login-cancel" class="btn" data-dismiss="modal">Cancel</button>
+  </div>
+</div>
+
+<script type="text/javascript">
+<!--
+    $(function() {
+        function login() {
+            var data =
+            {
+                email       : $("#form-email").val()
+            };
+            naan.ajaxPostJSON("/api/login2", data, function(json) {
+                window.location = rootUri + "/home";
+            });        
+            return false;
+        }
+        
+        $("#login-form").submit(login);
+        $("#button-login-submit").click(login);
+        $("#button-login-cancel").click(function() { });
+    });
+-->
+</script>

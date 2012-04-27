@@ -4,12 +4,69 @@
 // Routes table
 //===========================================================================//
 
-$app->get	('/api/login/:user_id',			'routes_get_api_login');
 $app->put	('/api/user',					'routes_put_api_user');
+$app->post  ('/api/login2',                 'routes_post_api_login2');
 
 //===========================================================================//
 // Routing functions
 //===========================================================================//
+
+function naan_json_success ($data = array())
+{
+    echo json_encode(
+        array(
+            'success' => 1,
+            'data' => $data
+        )
+    );
+}
+
+function naan_json_error ($text, $data = array())
+{
+    echo json_encode(
+        array(
+            'error' => 1,
+            'text' => $text,
+            'data' => $data
+        )
+    );
+}
+
+/*
+    Given a login name (i.e. e-mail address), if that user exists
+    in the database, make them the current user.  Otherwise, create
+    a new user with that id.
+ */
+function routes_post_api_login2()
+{
+    try
+    {
+        global $app;
+        $data = (object)$app->request()->params('data');
+        
+        $user = naan_db_get_row("users", array('id' => $data->email));
+        if (!$user)
+        {
+            naan_db_add_row("users", array(
+                'id'         => $data->email,
+                'first_name' => 'New',
+                'last_name'  => 'User'
+            ));
+            $user = naan_db_get_row("users", array('id' => $data->email));
+        }
+        naan_set_current_user($user->id);
+        
+        return naan_json_success($user);
+        
+    } catch (Exception $e)
+    {
+        return naan_json_error("PHP Exception", array(
+            'function' => __FUNCTION__,
+            'message' => $e->getMessage(),
+            'trace' => $e->getTrace()
+        ));
+    }
+}
 
 function routes_get_api_login($user_id)
 {

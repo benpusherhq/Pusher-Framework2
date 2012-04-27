@@ -26,11 +26,15 @@ if (!window.naan) window.naan = {};
                     if (json.error)
                     {
                         naan.error(json.error.text);
+                        
+                        console.log("AJAX error", json);
+                        console.log("Message", json.data.message);
                     }
-                    else {
+                    else if (json.success)                    
+                    {
                         try 
                         {
-                            callback(json);
+                            callback(json.data);
                         } 
                         catch (e )
                         {
@@ -38,10 +42,15 @@ if (!window.naan) window.naan = {};
                             naan.error("" + e);
                         }
                     }
+                    else 
+                    {
+                        naan.error("Unexpected JSON response format.");
+                        naan.error("Appears to be valid JSON but does not have a error or success flag.");
+                    }
                 }
                 catch (e)
                 {
-                    naan.error("Malformed JSON", data);
+                    naan.error("Malformed JSON");
                     naan.error("" + e);
                     console.log("Malformed JSON", data);
                     console.log("Exception", e);
@@ -70,6 +79,18 @@ if (!window.naan) window.naan = {};
 
 
 $(function() {
+
+    $(document).ajaxError(function(e, jqxhr, settings, exception) {
+        naan.error("JQuery ajax error");
+        naan.error(jqxhr.responseText);
+        
+        console.log("ajaxError Event", e);
+        console.log("ajaxError JQXHR", jqxhr);
+        console.log("ajaxError Settings", settings);
+        console.log("ajaxError Exception", exception);
+    });
+
+    // naan-search
     $(".naan-search").each(function() {       
         $(this).attr("href", "http://www.google.com/search?q=" + escape($(this).text()));
         $(this).attr("target", "_blank");
