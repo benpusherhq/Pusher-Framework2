@@ -1,0 +1,55 @@
+
+
+a.button.login { 
+width: 251px; 
+height:42px; 
+display: block; 
+margin: 10px auto;
+} 
+
+a.button.facebook { 
+    background: url('img/login-btns.png') no-repeat -2px -1px; 
+} 
+a.button.login.facebook:hover { 
+    background: url('img/login-btns.png') no-repeat -2px -44px; 
+} 
+a.button.login.facebook:active { 
+    background: url('img/login-btns.png') no-repeat -2px -87px; 
+} 
+a.button.login.twitter { 
+    background: url('img/login-btns.png') no-repeat -2px -130px; 
+} 
+a.button.login.twitter:hover { 
+    background: url('img/login-btns.png') no-repeat -2px -173px; 
+} 
+a.button.login.twitter:active { 
+    background: url('img/login-btns.png') no-repeat -2px -216px; 
+} 
+a.button.login.google { 
+    background: url('img/login-btns.png') no-repeat -2px -259px; 
+} 
+a.button.login.google:hover { 
+    background: url('img/login-btns.png') no-repeat -2px -302px; 
+} 
+a.button.login.google:active { 
+    background: url('img/login-btns.png') no-repeat -2px -345px; 
+}
+
+
+.icon-color {
+  background-image: url("glyphicons-halflings-color.png");
+}
+.icon-color:hover {
+  background-image: url("glyphicons-halflings-color-active.png");
+}
+
+
+a.naan-google-search {
+}
+
+a.naan-info {
+    font-size: 100%;
+    font-style: italic;
+    font-family: serif;
+    font-weight: bold;
+}

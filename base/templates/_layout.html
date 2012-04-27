@@ -13,6 +13,7 @@
       <meta name="author" content="">      
       
       <link href="{{rootUri}}/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+      <link href="{{rootUri}}/lib/naan/naan.css" rel="stylesheet">
       <style>
       body 
       {
@@ -25,6 +26,9 @@
       <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
       <![endif]-->
+      
+      <!-- Include JQuery early since some pages do use it in the body -->
+      <script src="{{rootUri}}/lib/jquery/jquery-1.7.2.min.js"></script>
       
    </head>
 
@@ -46,7 +50,7 @@
 		rootUri = "{{rootUri}}";
 	-->
 	</script>   
-    <script src="{{rootUri}}/lib/jquery/jquery-1.7.2.min.js"></script>
+    
     <script src="{{rootUri}}/lib/naan/naan.js"></script>
     <script src="{{rootUri}}/lib/naan/naan-slide-messages.js"></script>
   

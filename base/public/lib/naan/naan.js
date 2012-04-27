@@ -67,3 +67,11 @@ if (!window.naan) window.naan = {};
     };
 
 })(naan);
+
+
+$(function() {
+    $(".naan-search").each(function() {       
+        $(this).attr("href", "http://www.google.com/search?q=" + escape($(this).text()));
+        $(this).attr("target", "_blank");
+    });
+});

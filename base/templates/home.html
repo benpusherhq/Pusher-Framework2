@@ -14,46 +14,46 @@
           This is a test of the Pusher Framework.
        </p>      
        
-	   <h2>Server-side</h2>
-	   
-	   <ul>
-		<li><a href="{{rootUri}}/api/internal/createdatabase">Create Database</a></li>
-		<li>Login as user 
-			{% for i in 1..8 %}
-			/ <a href="{{rootUri}}/api/login/{{i}}">User {{i}}</a>
-			{% endfor %}
-		</li>
-	   </ul>
-	   
-	   <h4>Slim/Twig Variables</h4>
-	   
-	   <h5>Global Static</h5>
-	   <dl class="dl-horizontal">
-			<dt>rootUri</dt><dd>{{rootUri}}</dd>
-			<dt>hostUri</dt><dd>{{hostUri}}</dd>
-	   </dl>
-	   <h5>Global Dynamic</h5>
-	   <dl class="dl-horizontal">
-			<dt>userId</dt><dd>{{userId}}</dd>
-	   </dl>
-	   <h5>Page</h5>
-	   <dl class="dl-horizontal">
-			<dt>user.first_name</dt>
-			<dd>
-				<input id="field-user-first_name" type="text" value="{{user.first_name}}" />
-				<a id="button-user-first_name" class="btn btn-mini btn-primary">update</a>
-			</dd>
-			
-			<dt>user.last_name</dt>
-			<dd>
-				<input id="field-user-last_name" type="text" value="{{user.last_name}}" />
-				<a id="button-user-last_name" class="btn btn-mini btn-primary">update</a>
-			</dd>
-			
-			<dt>userDataString</dt><dd>{{userDataString}}</dd>
-	   </dl>
-	   
-	   
+       <h2>Server-side</h2>
+       
+       <ul>
+        <li><a href="{{rootUri}}/api/internal/createdatabase">Create Database</a></li>
+        <li>Login as user 
+            {% for i in 1..8 %}
+            / <a href="{{rootUri}}/api/login/{{i}}">User {{i}}</a>
+            {% endfor %}
+        </li>
+       </ul>
+       
+       <h4>Slim/Twig Variables</h4>
+       
+       <h5>Global Static</h5>
+       <dl class="dl-horizontal">
+            <dt>rootUri</dt><dd>{{rootUri}}</dd>
+            <dt>hostUri</dt><dd>{{hostUri}}</dd>
+       </dl>
+       <h5>Global Dynamic</h5>
+       <dl class="dl-horizontal">
+            <dt>userId</dt><dd>{{userId}}</dd>
+       </dl>
+       <h5>Page</h5>
+       <dl class="dl-horizontal">
+            <dt>user.first_name</dt>
+            <dd>
+                <input id="field-user-first_name" type="text" value="{{user.first_name}}" />
+                <a id="button-user-first_name" class="btn btn-mini btn-primary">update</a>
+            </dd>
+            
+            <dt>user.last_name</dt>
+            <dd>
+                <input id="field-user-last_name" type="text" value="{{user.last_name}}" />
+                <a id="button-user-last_name" class="btn btn-mini btn-primary">update</a>
+            </dd>
+            
+            <dt>userDataString</dt><dd>{{userDataString}}</dd>
+       </dl>
+       
+       
        <h2>Client-Side UI</h2>
        
        <h4>Slider Messages</h4>
@@ -97,25 +97,25 @@
                 $("#add-info").click(function() { naan.info("Hello World!"); return false; });
                 $("#add-success").click(function() { naan.success("Hello World!"); return false; });
                 $("#add-error").click(function() { naan.error("Hello World!"); return false; });
-				
-				$("#button-user-first_name").click(function() {
-					var data = {
-						first_name : $("#field-user-first_name").val()
-					};
-					naan.ajaxPutJSON("/api/user", data, function(json) {
-						naan.success("Success!");
-					});
-					return false;
-				});
-				$("#button-user-last_name").click(function() {
-					var data = {
-						last_name : $("#field-user-last_name").val()
-					};
-					naan.ajaxPutJSON("/api/user", data, function(json) {
-						naan.success("Success!");
-					});
-					return false;
-				});
+                
+                $("#button-user-first_name").click(function() {
+                    var data = {
+                        first_name : $("#field-user-first_name").val()
+                    };
+                    naan.ajaxPutJSON("/api/user", data, function(json) {
+                        naan.success("Success!");
+                    });
+                    return false;
+                });
+                $("#button-user-last_name").click(function() {
+                    var data = {
+                        last_name : $("#field-user-last_name").val()
+                    };
+                    naan.ajaxPutJSON("/api/user", data, function(json) {
+                        naan.success("Success!");
+                    });
+                    return false;
+                });
             });
        -->
        </script>

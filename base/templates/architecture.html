@@ -1,0 +1,154 @@
+{% extends '_layout.html' %}
+
+{% block content %}
+   <div class="page-header">
+    <h1>Architecture</h1>
+   </div>
+   
+   <div class="row">
+    <div class="span8">       
+    
+        <h2 style="margin-bottom: .5em">Server Side</h2>
+        
+        <h3>Routing</h3>
+        <p>
+            <a href="http://www.slimframework.com/documentation/stable">Slim</a> is used as a URL router.
+            <a class="naan-info" href="#info-url-router"></a>
+            It's primary purpose is to map page requests to PHP functions via 
+            what it calls <strong>routes</strong>.  The URL mapping provides an easy way to pass
+            data as part of the URL; furthermore, Slim provides easy mechanisms for getting 
+            GET, POST, PUT, and DELETE data             
+            for a <span class="naan-search">RESTful</span> web app. <a class="naan-info" href="#rest-info"></a>
+            
+        </p>
+          
+        <p id="rest-info" data-title="GET, POST, PUT, DELETE">
+            GET, POST, PUT, and DELETE are four HTTP "Methods".  By convention GET is used to 
+            read an item from a database, POST is used to create a new item, 
+            PUT is used to update an existing item, and DELETE is used to remove an item.  Again
+            these are conventions, not enforced rules.
+        </p>
+
+
+        <h3>Templates</h3>
+        <p>
+            The page served by Slim use <a class="naan-search">Twig</a>, a template engine to render the
+            HTML pages.  The primary advantages to Twig are template reuse and
+            string substitutions <a class="naan-info" href="#info-twig-templates"></a>.
+        </p>
+
+        <p>
+            Twig is used since leads to cleaner HTML templates than using PHP directly.  It is also more
+            secure and often more convenient than using PHP directly.  The Twig documentation is fairly
+            high-quality and show be consulted for more information.
+        </p>
+        <div id="info-twig-templates" data-title="Twig Templates">
+        <p>
+            Twig allows PHP variables to be <strong>substituted</strong> into the HTML; e.g. the
+            syntax <code>{{userProfile.firstName}}</code> could be inserted into the HTML and this would
+            tell Twig to substitute that block with a PHP variable holding the current user's first name.
+        </p>
+        <p>
+            The other major advantage of Twig is common blocks of HTML 
+            can be both inherited and directly included between pages: avoiding duplication of HTML.  
+            Thus, common elements only ever need to be updated in one place to ensure the change is made
+            on every page.
+        </p>      
+        </div>
+        
+        <h2 style="margin-bottom: .5em; margin-top: 1.5em">Client Side</h2>
+        
+        <h3>HTML5, Javascript, &amp; CSS</h3>
+        <p>
+            Placeholder.
+        </p>
+        
+        <h3>Bootstrap, LESS, JQuery, &amp; Underscore</h3>
+        <p>
+            Placeholder.
+        </p>
+        
+        
+    </div>
+    <div class="span4">        
+        <p class="label label-info">Info</p>
+        <div style="color: #777">
+        <p>
+            The architecture is actively in development.  The goal is to use well-defined, well-documented
+            external libraries that work as a cohesive whole.
+        </p>
+        <p>
+            An objective is to keep this document as concise as possible by maximizing the 
+            use of external libraries with excellent documentation and providing a logical, 
+            consistent, self-explanatory architecture to connect these components.
+        </p>
+        <p>
+            The {{app.title}} is <i>not</i> intended to be a full-fledged Content Management
+            System that hides the inner-workings from the user, but rather a transparent
+            system that is minimal and understandable so that the code <i>can</i> be edited
+            directly by the client of the framework.
+        </p>
+        
+        
+        <p id="info-url-router" data-title="URL Routing">
+            In a "traditional" static web server setup, the URL corresponds to a path name on 
+            the webserver: i.e. a set of directories and a filename.  Slim allows redirecting
+            of the URLs so that any URL can be remapped to piece of PHP code.  That code may
+            simply display an HTML file, or it may run complex PHP code that then returns a 
+            JSON result.             
+        </p>
+        </div>
+    </div>
+   </div>
+   
+   
+   <!-- naan-info -->
+   
+   <script id="naan-template" type="text/plain">            
+        <div class="alert alert-info" style="display:none">
+            <h3 class="pull-right" style="margin-right: -1em; margin-top: -.5em"><a href="#">x</a></h3>
+            <div style="margin-bottom: 1em">
+                <span class="label label-info" style="padding-right: 6em">
+                    <i class="icon-info-sign icon-white"> </i>
+                    <span class="naan-info-title" style="padding-left: 1em">Additional Information</span>
+                </span>
+            </div>            
+            <div class="naan-info-content">
+            </div>
+        </div>                     
+    </script>
+
+    <script>
+    $(function() {
+        $(".naan-info").each(function() {
+            var $this = $(this);
+            var id = $this.attr("href");
+            var $info = $(id);
+            var title = $info.attr("data-title");
+            
+            $this.attr("title", "click for more information");
+            if ($this.text() == "") $this.html("<i class='icon-info-sign icon-color'> </i>");
+            
+            // Wrap the original element in the template
+            var $template = $( $("#naan-template").text() );
+            $info.attr("id", id + "-inner");
+            $info.replaceWith($template);
+            $template.find(".naan-info-content").append($info);
+            $template.find(".naan-info-title").text(title);
+            //$template.hide();
+            
+            // Hook in the display toggle
+            $(this).click(function() {
+                console.log(id, title);
+                $template.slideToggle();
+            });
+            $template.find(".pull-right").click(function() {
+                $template.slideUp();
+                return false;
+            });
+            
+        });
+    });
+    </script>
+   
+{% endblock %}
