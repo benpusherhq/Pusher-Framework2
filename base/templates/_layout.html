@@ -14,6 +14,8 @@
       
       <link href="{{rootUri}}/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
       <link href="{{rootUri}}/lib/naan/naan.css" rel="stylesheet">
+      <link href="{{rootUri}}/lib/google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
+      
       <style>
       body 
       {
@@ -50,10 +52,15 @@
 	<script type="text/javascript">
 	<!--
 		rootUri = "{{rootUri}}";
+        
+        $(function() {
+            prettyPrint();
+        });
 	-->
 	</script>   
     
     <script src="{{rootUri}}/lib/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="{{rootUri}}/lib/google-code-prettify/prettify.js"></script>
     <script src="{{rootUri}}/lib/naan/naan.js"></script>
     <script src="{{rootUri}}/lib/naan/naan-slide-messages.js"></script>
   

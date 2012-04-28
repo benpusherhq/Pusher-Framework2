@@ -19,15 +19,20 @@
             data as part of the URL; furthermore, Slim provides easy mechanisms for getting 
             GET, POST, PUT, and DELETE data             
             for a <span class="naan-search">RESTful</span> web app. <a class="naan-info" href="#rest-info"></a>
-            
         </p>
-          
         <p id="rest-info" data-title="GET, POST, PUT, DELETE">
             GET, POST, PUT, and DELETE are four HTTP "Methods".  By convention GET is used to 
             read an item from a database, POST is used to create a new item, 
             PUT is used to update an existing item, and DELETE is used to remove an item.  Again
             these are conventions, not enforced rules.
+        </p>        
+        <p>
+            Routes, by convention in the {{app.title}}, are either <strong>pages</strong> (i.e. returns
+            HTML viewable by a user in the browser) or <strong>apis</strong> (i.e. returns JSON data that
+            is not directly seen by the user, but rather often used in by an AJAX call with in a page).
         </p>
+          
+        
 
 
         <h3>Templates</h3>

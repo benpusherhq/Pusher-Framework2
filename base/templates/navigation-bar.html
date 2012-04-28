@@ -10,14 +10,28 @@
           <a class="brand" href="{{rootUri}}">{{app.title}}</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="{{rootUri}}/home">Home</a></li>
-              <li><a href="{{rootUri}}/architecture">Architecture</a></li>
+              <li class=""><a href="{{rootUri}}/home">Home</a></li>
+              
+              <!-- Tools Dropdown -->
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Documentation<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li class=""><a href="{{rootUri}}/documentation/objectives">Objectives</a></li>
+                    <li class=""><a href="{{rootUri}}/documentation/architecture">Architecture</a></li>
+                    <li class=""><a href="{{rootUri}}/documentation/naanjs">Naan.css</a></li>
+                    <li class=""><a href="{{rootUri}}/documentation/naanjs">Naan.js</a></li>
+                    <li class=""><a href="{{rootUri}}/documentation/naanphp">Naan.php</a></li>
+                </ul>
+              </li>             
+              
+              <!-- Tools Dropdown -->
               <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tools<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li class="active"><a href="{{rootUri}}/tools/tasks">Tasks</a></li>
+                    <li class=""><a href="{{rootUri}}/tools/tasks">Tasks</a></li>
                 </ul>
-             </li>
+              </li>
+              
               <li><a href="{{rootUri}}/status">Status</a></li>
               <li><a href="{{rootUri}}/contact">Contact</a></li>
             </ul>
