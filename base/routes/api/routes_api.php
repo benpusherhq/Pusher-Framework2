@@ -9,6 +9,10 @@ $app->post  ('/api/login2',                 'routes_post_api_login2');
 
 $app->post  ('/api/db/post/:table',         'routes_post_api_db_post');
 
+
+$app->get   ('/api/notecards',              'routes_get_api_notecards');
+$app->post  ('/api/notecards',              'routes_post_api_notecards');
+
 //===========================================================================//
 // Routing functions
 //===========================================================================//
@@ -137,4 +141,47 @@ function routes_post_api_db_post($table)
             'trace' => $e->getTrace()
         ));
     }
+}
+
+function routes_get_api_notecards()
+{
+    global $app;
+    
+    $user_id = naan_current_user_id();
+    
+    $rows = naan_db_get_rows('notecard_notes', array(
+        'owner_id' => $user_id
+    ));    
+    if ($rows)
+    {
+        $results = array();
+        foreach ($rows as $note)
+        {
+            $results[] = array(
+                'id' => $note['id'],
+                'content' => $note['content']
+            );
+        }
+        
+        return naan_json_success($results);
+    }
+    return naan_json_error();
+}
+
+function routes_post_api_notecards()
+{
+    global $app;
+    
+    $user_id = naan_current_user_id();
+    $data = $app->request()->params('data');
+    
+    if ($data)
+    {
+        naan_db_add_row('notecard_notes', array(
+            'owner_id' => $user_id,
+            'content' => $data['content']
+        ));
+        return naan_json_success();
+    }
+    return naan_json_error();
 }

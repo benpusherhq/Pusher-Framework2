@@ -1,0 +1,64 @@
+{% extends '_layout.html' %}
+
+{% block content %}
+    
+   
+   <div class="page-header">
+    <h1>Notecards</h1>
+   </div>
+   
+   <div class="row">
+    <div class="span8">
+    
+        <h2>Notes</h2>
+        <ul id="note-list">
+        </ul>
+    
+        <h2>Add Note</h2>
+        <textarea style="margin: 0; padding: 0; border: none" class="editor"></textarea>
+        
+        <a id="button_display" href="#" class="btn">Display</a>
+    </div>
+   </div>
+{% endblock %}
+
+{% block script_content %}
+
+    <script type="text/javascript" src="{{rootUri}}/lib/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="{{rootUri}}/lib/ckeditor/adapters/jquery.js"></script>
+
+<script type="text/javascript">
+<!--
+    
+
+    $(function() {
+
+        var editor = $('textarea.editor').ckeditor({ toolbar : "Basic" });
+        
+        function addItem(note)
+        {
+            var $li = $("<li/>");
+            $li.html(note.content);
+            $("#note-list").append($li);
+        }
+        
+        naan.ajaxGetJSON("/api/notecards", {}, function(json) {
+            _.each(json, function(note) { addItem(note); });
+        });
+        
+        $("#button_display").click(function() {
+            var data = {
+                content : editor.val()
+            };
+            naan.ajaxPostJSON("/api/notecards", data, function(json) {                
+                addItem(data);
+                editor.val("");
+            });
+            return false;
+        });
+    });
+-->
+</script>
+       
+{% endblock %}
+

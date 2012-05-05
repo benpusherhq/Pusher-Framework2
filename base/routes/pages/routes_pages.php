@@ -7,6 +7,7 @@
 $app->get('/',                              'routes_get_landing');
 $app->get('/home',                          'routes_get_home');
 $app->get('/tools/tasks',                   'routes_get_tools_tasks');
+$app->get('/tools/notecards',               'routes_get_tools_notecards');
 $app->get('/documentation/:page_name',      'routes_get_documentation');
 
 //===========================================================================//
@@ -32,6 +33,12 @@ function routes_get_tools_tasks()
 {
     global $app;
     return $app->render('tasks.html'); 
+}
+
+function routes_get_tools_notecards()
+{
+    global $app;
+    return $app->render('notecards.html'); 
 }
 
 /*
