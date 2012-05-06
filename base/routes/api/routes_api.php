@@ -12,6 +12,7 @@ $app->post  ('/api/db/post/:table',         'routes_post_api_db_post');
 
 $app->get   ('/api/notecards',              'routes_get_api_notecards');
 $app->post  ('/api/notecards',              'routes_post_api_notecards');
+$app->delete('/api/notecards',              'routes_delete_api_notecards');
 
 //===========================================================================//
 // Routing functions
@@ -184,4 +185,17 @@ function routes_post_api_notecards()
         return naan_json_success();
     }
     return naan_json_error();
+}
+
+function routes_delete_api_notecards()
+{
+    global $app;
+    
+    $user_id = naan_current_user_id();
+    $data = $app->request()->params('data');
+    
+    naan_db_delete_row('notecard_notes', array(
+        'id' => $data['id']
+    ));
+    return naan_json_success();
 }

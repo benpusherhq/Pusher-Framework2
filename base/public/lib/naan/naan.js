@@ -88,6 +88,7 @@ $(function() {
         console.log("ajaxError JQXHR", jqxhr);
         console.log("ajaxError Settings", settings);
         console.log("ajaxError Exception", exception);
+        console.log(jqxhr.responseText);
     });
 
     // naan-search

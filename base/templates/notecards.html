@@ -2,6 +2,48 @@
 
 {% block content %}
     
+    <style>
+    .naan-template
+    {
+        display: none;
+    }
+    </style>
+    <script type="text/javascript">
+    <!--
+        function naan_template (id, params)
+        {
+            //
+            // Clone the element, replace the unique id from the clone (since it
+            // would no longer be unique!), and remove the class that keeps the
+            // template hidden.
+            //
+            var $template = $(id);
+            var $e = $template.clone();
+            $e.attr("id", params["_id"]);
+            $e.removeClass("naan-template");
+            
+            //
+            // Loop through the parameters and use the convention that the key
+            // name should match a "t-<parameterkey>" class in the template. Swap
+            // in the value - which is assumed to be HTML.
+            //
+            _.each(params, function(value, key) {
+                $e.find(".t-" + key).html(value);
+            });
+           
+            //
+            // Now add the filled-in template before the original template element
+            // itself.  This provides a first-in, first-displayed order.  Use
+            // fadeIn to then display the element.
+            //
+            $e.hide();
+            $template.before($e);
+            $e.fadeIn();
+            
+            return $e;
+        }
+    -->
+    </script>
    
    <div class="page-header">
     <h1>Notecards</h1>
@@ -11,8 +53,23 @@
     <div class="span8">
     
         <h2>Notes</h2>
-        <ul id="note-list">
-        </ul>
+        <table id="note-list">
+          <tbody>
+          
+            <tr id="template-note" class="naan-template">
+                <td style="padding-right: 1em"><i class="icon-star"></i> </td>
+                <td>
+                    <div style="border: solid 1px #CCC; border-radius: 4px; padding: 6px; margin: .5em 0em">
+                        <div class="t-content"></div>
+                        <div style="border-top: dotted 1px #DDD">
+                            <small><a href="#" class="t-remove-button">remove</a></small>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+          
+          </tbody>
+        </table>
     
         <h2>Add Note</h2>
         <textarea style="margin: 0; padding: 0; border: none" class="editor"></textarea>
@@ -33,25 +90,99 @@
 
     $(function() {
 
-        var editor = $('textarea.editor').ckeditor({ toolbar : "Basic" });
         
-        function addItem(note)
+        
+        var View = 
         {
-            var $li = $("<li/>");
-            $li.html(note.content);
-            $("#note-list").append($li);
-        }
+            add     : function (obj)  {},
+            erase   : function (obj)  {},
+            update  : function (obj)  {}
+        };
         
-        naan.ajaxGetJSON("/api/notecards", {}, function(json) {
-            _.each(json, function(note) { addItem(note); });
+        var NoteView = _.extend(View,
+        {
+            add : function (note)
+            {
+                var $e = naan_template("#template-note", {
+                    _id     : "notecard-" + note.id,
+                    content : note.content
+                });      
+
+                // Hook up the remove button
+                $e.find(".t-remove-button").attr("data-id", note.id).click(function() {
+                    if (confirm("Are you sure you wish to remove this note?")) {
+                        var id = $(this).attr("data-id");
+                        NoteDb.erase(id, function(){
+                            $e.unbind().fadeOut();
+                        });
+                    }
+                    return false;
+                });
+            },            
         });
         
+        var Model = 
+        {
+            _views : [],
+            
+            addView : function(view)
+            {
+                this._views.push(view);
+            },
+            
+            _notifyViews : function (funcName, obj) 
+            {
+                _.each(this._views, function(view) {
+                    view[funcName](obj);
+                });
+            },
+            _notifyAdd      : function (obj) { this._notifyViews('add', obj); },
+            _notifyErase    : function (obj) { this._notifyViews('erase', obj); },
+            _notifyUpdate   : function (obj) { this._notifyViews('update', obj); }
+            
+        };
+        
+        var NoteDb =_.extend(Model, 
+        {
+            initialize : function()
+            {
+                var self = this;
+                naan.ajaxGetJSON("/api/notecards", {}, function(json) {
+                    _.each(json, function(note) {  
+                        self._notifyAdd(note);
+                    });
+                });
+            },
+                        
+            add : function (note, success)
+            {
+                var self = this;
+                naan.ajaxPostJSON("/api/notecards", note, function(json) {                
+                    success(note);
+                    self._notifyAdd(note);
+                });
+            },
+            
+            erase : function (id, success)
+            {
+                var self = this;
+                naan.ajaxDeleteJSON("/api/notecards", { id : id }, function(json) {
+                    if (success)
+                        success();
+                    self._notifyDelete(note);
+                });
+            }
+        });
+        
+        NoteDb.addView(NoteView);
+        NoteDb.initialize();
+        var editor = $('textarea.editor').ckeditor({ toolbar : "Basic" });
+                
         $("#button_display").click(function() {
             var data = {
                 content : editor.val()
             };
-            naan.ajaxPostJSON("/api/notecards", data, function(json) {                
-                addItem(data);
+            NoteDb.add(data, function() {
                 editor.val("");
             });
             return false;
