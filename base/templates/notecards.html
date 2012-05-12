@@ -3,6 +3,10 @@
 {% block content %}
     
     <style>
+    body
+    {
+        background-image: url({{rootUri}}/lib/naan/img/cork3.png);
+    }
     .naan-template
     {
         display: none;
@@ -44,23 +48,18 @@
         }
     -->
     </script>
-   
-   <div class="page-header">
-    <h1>Notecards</h1>
-   </div>
-   
+      
    <div class="row">
-    <div class="span8">
+    <div class="span8 offset1">
     
 
-        <h2>Notes</h2>
         <table id="note-list">
           <tbody>
           
             <tr id="template-note" class="naan-template">
-                <td style="padding-right: 1em"><i class="icon-star"></i> </td>
+                <td style="padding-right: 1em"> </td>
                 <td>
-                    <div style="border: solid 1px #CCC; border-radius: 4px; padding: 6px; margin: .5em 0em">
+                    <div style="border: solid 1px #CCC; border-radius: 4px; padding: 6px; margin: .5em 0em; background-color: white">
                         <div class="t-content"></div>
                         <div style="border-top: dotted 1px #DDD">
                             <small><a href="#" class="t-remove-button">remove</a></small>
