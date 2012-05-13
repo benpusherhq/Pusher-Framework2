@@ -82,7 +82,10 @@
           
             <tr id="template-note" class="naan-template">
                 <td>
-                    <div style="border: solid 1px #CCC; border-radius: 6px; padding: 6px; margin: .25em 0em; background-color: rgba(255,255,240,.85); box-shadow: 4px 4px 5px rgba(0,0,0,.25);">
+                    <div
+                        draggable='true'
+                        style="border: solid 1px #CCC; border-radius: 6px; padding: 6px; margin: .25em 0em; background-color: rgba(255,255,240,.85); box-shadow: 4px 4px 5px rgba(0,0,0,.25);"
+                        >
                         <div class="t-content notecard-content" style='padding: 2px 4px' contenteditable></div>
                         <div style="border-top: dotted 1px #DDD">
                             <div class="pull-right">
@@ -269,7 +272,6 @@
                     $e.find('.t-rank-icon').toggleClass('icon-chevron-left').toggleClass('icon-chevron-down');
                     $e.find('.t-rank').slideToggle('fast');
                 });
-                
 
                 // Hook up the remove button
                 $e.find(".t-remove-button").attr("data-id", note.id).click(function() {
@@ -280,6 +282,38 @@
                         });
                     }
                     return false;
+                });
+                
+                // Hook up drag and drop
+                $e.bind('dragenter',    function(e) { 
+                    e.preventDefault(); 
+                    return false; 
+                });
+                $e.bind('dragleave',    function(e) { 
+                    e.preventDefault(); 
+                    return false; 
+                });
+                $e.bind('dragover',     function(e) { 
+                    e.preventDefault(); 
+                    return false; 
+                }); 
+                
+                $e.bind('dragstart',     function(e) { 
+                    e.originalEvent.allowedEffect = "move";
+                    e.originalEvent.dataTransfer.setData('text/plain', $(this).attr('id'));
+                    $(this).animate({'opacity' : .4 }, 250);              
+                });     
+                $e.bind('dragend',     function(e) { 
+                    $(this).animate({'opacity' : 1.0 }, 500);
+                }); 
+                $e.bind('drop', function (e) {
+                    var $target = $(this);
+                    var $source = $( "#" + e.originalEvent.dataTransfer.getData('text/plain') );                    
+                    if ($target.attr('id') != $source.attr('id'))
+                    {
+                        $source.detach();
+                        $target.after( $source );
+                    }
                 });
             },            
         });
