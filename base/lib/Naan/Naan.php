@@ -1,5 +1,63 @@
 <?php
 
+
+//-----------------------------------------------------------------------------------//
+// _validate_array
+//-----------------------------------------------------------------------------------//
+
+/*
+    Takes in an array "data" that presumably has come externally from an API call 
+    (i.e. needs some degree of validation).  Throws an exception if any required
+    data is not part of the array and fills in any optional data with default values.
+    
+    Compares the keys in "data" versus the array of key names in "required".  If data
+    is missing any of those keys, an Exception is thrown.
+    
+    Then compares all the keys in "data" to the "defaults" associative array; if data
+    is missing any of the keys, the default is put into the array.
+    
+    Extraneous keys in neither "required" or "defaults" are discarded from the final
+    array.
+    
+    Returns a array composed solely of the required and default key names, with each
+    value set either to the original value or the default value.
+    
+    Note: this does not validation that the value itself is meaningful, well-formed,
+    or correct.
+ */
+function naan_validate_array($data, $required, $defaults)
+{
+    $result = array();
+    
+    foreach ($required as $index => $key)
+    {
+        if (!array_key_exists($key, $data))
+            throw new Exception("Required parameter does not exist '$key'");
+        else
+            $result[$key] = $data[$key];
+    }
+    foreach ($defaults as $key => $value)
+    {
+        if (!array_key_exists($key, $data))
+            $result[$key] = $value;
+        else
+            $result[$key] = $data[$key];
+    }
+        
+    return (object)$result;
+}
+
+function naan_recognized_keys ($data, $recognized)
+{
+    $result = array();
+    foreach ($recognized as $index => $key)
+    {
+        if (array_key_exists($key, $data))
+            $result[$key] = $data[$key];
+    }
+    return $result;
+}
+
 //===========================================================================//
 // Database
 //===========================================================================//

@@ -51,25 +51,80 @@
       
    <div class="row">
     <div class="span8 offset1">
-    
+
+        <h1 id="topic" contenteditable class="search-query" style="border: solid 2px gray; color: gray; background-color: rgba(255,255,255,.8);  margin: 0em 4em .75em 0em; padding: .25em .5em">Topic</h1>
 
         <table id="note-list">
           <tbody>
           
             <tr id="template-note" class="naan-template">
-                <td style="padding-right: 1em"> </td>
                 <td>
-                    <div style="border: solid 1px #CCC; border-radius: 4px; padding: 6px; margin: .5em 0em; background-color: white">
-                        <div class="t-content"></div>
+                    <div style="border: solid 1px #CCC; border-radius: 6px; padding: 6px; margin: .5em 0em; background-color: rgba(255,255,240,.85); box-shadow: 4px 4px 5px rgba(0,0,0,.25);">
+                        <div class="t-content notecard-content" contenteditable></div>
                         <div style="border-top: dotted 1px #DDD">
-                            <small><a href="#" class="t-remove-button">remove</a></small>
                             <div class="pull-right">
+                                
+                                <a class='t-rank-button' href="#" title="Rate in more detail..."><i class="t-rank-icon icon-chevron-left"></i> rank</a>
+                                
+                                <span style="border-right: 1px dotted #CCC; margin: 0em .5em 0 .25em"></span>
+                                <a class='t-remove-button' href="#" title="Never show me this notecard"><i class="icon-remove-sign"></i></a>
+                                <span style="margin: 0em .5em 0 0"></span>
                                 <i class="icon-thumbs-down"></i>
                                 <i class="icon-thumbs-up"></i>
-                                <span style="border-right: 1px dotted #CCC; margin: 0em .5em 0 .25em"></span>
-                                <i class="icon-ok-sign"></i>
-                                <i class="icon-remove-sign"></i>
+
                             </div>
+                            <div style='clear: both'></div>
+                        </div>
+                        <div class='t-rank' style='display: none; padding: .5em 1em; margin: 1em 0em'>
+    
+                            <div style='float: left; width: 20em'>
+                            <table >
+                                <tbody>
+                                    <tr>
+                                        <td style='padding-right: 1em'>Relevance to topic</td>                                        
+                                        <td style='padding-right: 1em'>
+                                            <a href="#" title="none"><i class="icon-star"></i></a>
+                                            <a href="#" title="low"><i class="icon-star"></i>
+                                            <a href="#" title="good"><i class="icon-star"></i>
+                                            <a href="#" title="excellent"><i class="icon-star-empty"></i></a>
+                                        </td>
+                                        <td>
+                                            <a href="#" title="Remove my ranking"><i class="icon-remove-circle"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Quality</td>
+                                        
+                                        <td>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star-empty"></i>
+                                            <i class="icon-star-empty"></i>
+                                        </td>
+                                        <td>
+                                            <a href="#" title="Remove my ranking"><i class="icon-remove-circle"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                                <div style='font-size: 90%; color: gray; margin-top: 1em'>
+                                <i>
+                                    Your personal ranking of a particular note helps determine
+                                    what notecards show up in your own searches as well as those
+                                    as others.
+                                </i>
+                                </div>
+                            </div>
+                             
+                             <div style='margin-left: 24em'>
+                                <h4>Listed under the topics:</h4>
+                                <ul>
+                                    <li>Add new...</li>
+                                </ul>
+                             </div>
+                                
+                             <div style='clear: both'></div>
+                            
                         </div>
                     </div>
                 </td>
@@ -78,29 +133,38 @@
             </tr>
           
           </tbody>
-        </table>
-            
-        
-        
+        </table>      
+    </div>
+    
+    <div class="span2">
+        <div style="background-color: rgba(255,255,255,.4); padding: .5em; width: 100%; min-height: 10em; border-radius: 8px">
+            <h4>Related</h4>
+            <ul class='unstyled' style='font-size: 80%; white-space: nowrap; margin: .5em 0em 0em 0.5em'>
+                <li>Photography > Landscapes</li>
+                <li>States > California</li>
+                <li>California > Mt. Shasta</li>
+                <li>Mountains</li>
+            </ul>
+        </div>
     </div>
    </div>
-   
-    <div style=" width: 720px"><textarea class="editor"></textarea></div>
-        <a id="button_display" href="#" class="btn">Display</a>
    
 {% endblock %}
 
 {% block script_content %}
-
-    <script type="text/javascript" src="{{rootUri}}/lib/ckeditor/ckeditor.js"></script>
-    <script type="text/javascript" src="{{rootUri}}/lib/ckeditor/adapters/jquery.js"></script>
 
 <script type="text/javascript">
 <!--
     
 
     $(function() {
+    
+        $("#topic").keypress(function(e) {
+            if (e.keyCode == 13)
+                e.preventDefault();
 
+        });
+        
         var View = 
         {
             add     : function (obj)  {},
@@ -116,6 +180,32 @@
                     _id     : "notecard-" + note.id,
                     content : note.content
                 });      
+                
+                // Hook up the editable content
+                var $content = $e.find(".t-content");
+                $content.attr('data-id', note.id);
+                $content.focus(function(e) {
+                    $(this).attr("data-previous-content", $(this).html());
+                });
+                $content.blur(function(e) {
+                    var previous = $(this).attr("data-previous-content");
+                    var current = $(this).html();
+                    if (current != previous)
+                    {
+                        var id = $(this).attr("data-id");
+                        NoteDb.update(id, { content : $(this).html() });
+                    }
+                });
+                $content.keypress(function(e) {
+                    if (e.keyCode == 10 && e.ctrlKey == true)
+                        $(this).blur();
+                });
+                
+                $e.find('.t-rank-button').click(function() {
+                    $e.find('.t-rank-icon').toggleClass('icon-chevron-left').toggleClass('icon-chevron-down');
+                    $e.find('.t-rank').slideToggle('fast');
+                });
+                
 
                 // Hook up the remove button
                 $e.find(".t-remove-button").attr("data-id", note.id).click(function() {
@@ -172,6 +262,15 @@
                 });
             },
             
+            update : function (id, params)
+            {
+                console.log("Updating...");
+                naan.ajaxPutJSON('/api/notecards/' + id, params, function (json) {
+                    console.log("Success");
+                    self._notifyUpdate(id, params);
+                });
+            },
+            
             erase : function (id, success)
             {
                 var self = this;
@@ -185,7 +284,6 @@
         
         NoteDb.addView(NoteView);
         NoteDb.initialize();
-        var editor = $('textarea.editor').ckeditor({ toolbar : "Basic" });
                 
         $("#button_display").click(function() {
             var data = {
