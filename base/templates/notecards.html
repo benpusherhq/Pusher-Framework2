@@ -83,11 +83,13 @@
             <tr id="template-note" class="naan-template">
                 <td>
                     <div
+                        class='t-draggable'
                         draggable='true'
                         style="border: solid 1px #CCC; border-radius: 6px; padding: 6px; margin: .25em 0em; background-color: rgba(255,255,240,.85); box-shadow: 4px 4px 5px rgba(0,0,0,.25);"
                         >
-                        <div class="t-content notecard-content" style='padding: 2px 4px' contenteditable></div>
+                        <div class="t-content notecard-content" style='padding: 2px 4px'></div>
                         <div style="border-top: dotted 1px #DDD">
+
                             <div class="pull-right">
                                 
                                 <a class='t-rank-button' href="#" title="Rate in more detail..."><i class="t-rank-icon icon-chevron-left"></i> rank</a>
@@ -97,8 +99,9 @@
                                 <span style="margin: 0em .5em 0 0"></span>
                                 <i class="icon-thumbs-down"></i>
                                 <i class="icon-thumbs-up"></i>
-
                             </div>
+                            <div>
+                            </div>                            
                             <div style='clear: both'></div>
                         </div>
                         <div class='t-rank' style='display: none; padding: .5em 1em; margin: 1em 0em'>
@@ -244,10 +247,22 @@
                     _id     : "notecard-" + note.id,
                     content : note.content
                 });      
-                
+                                
+                var $draggable = $e.find('.t-draggable');
+                                
                 // Hook up the editable content
                 var $content = $e.find(".t-content");
                 $content.attr('data-id', note.id);
+                
+                // draggable & contentEditable don't play well together: use double-click
+                // to invoke the edit and disable draggable until the edit loses focus
+                $content.dblclick(function(e) {
+                    $draggable.attr('draggable', false);
+                    $(this).attr('contenteditable', true);
+                    $(this).focus();
+                    return false;
+                });
+                
                 $content.focus(function(e) {
                     $(this).attr("data-previous-content", $(this).html());
                 });
@@ -259,6 +274,8 @@
                         var id = $(this).attr("data-id");
                         NoteDb.update(id, { content : $(this).html() });
                     }
+                    $draggable.attr('draggable', true);
+                    $(this).attr('contenteditable', false);
                 });
                 $content.keypress(function(e) {
                     if (e.keyCode == 10 && e.ctrlKey == true)
