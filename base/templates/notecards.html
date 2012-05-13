@@ -41,7 +41,7 @@
             // fadeIn to then display the element.
             //
             $e.hide();
-            $template.before($e);
+            $template.after($e);
             $e.fadeIn();
             
             return $e;
@@ -52,15 +52,38 @@
    <div class="row">
     <div class="span8 offset1">
 
-        <h1 id="topic" contenteditable class="search-query" style="border: solid 2px gray; color: gray; background-color: rgba(255,255,255,.8);  margin: 0em 4em .75em 0em; padding: .25em .5em">Topic</h1>
+
+        <div class="navbar">
+          <div class="navbar-inner" style='background-color: rgba(128,128,128,.8); background-image: none'>
+            <div class="container">           
+                <ul class="nav">
+                    <li>
+                        <h2 id="topic" class="search-query" style="color: gray; background-color: rgba(255,255,255,.9);  width: 16em; margin: 6px 2px 6px 2px">
+                            <div contenteditable>Photography</div>
+                        </h2>
+                    </li>                    
+                </ul>
+                <ul class="nav pull-right">
+                    <li>
+                        <h2 style='color: rgba(255,255,255,.9); font-size: 400%; padding-top: 8px'>
+                            <a href="#" title="Topic details">&lt;</a>
+                            <a id='create-notecard' href="#" title="Create a Notecard">+</a>
+                            &hearts; 
+                        </h2>
+                    </li>
+                </u>
+            </div>
+          </div>
+        </div>
+        
 
         <table id="note-list">
           <tbody>
           
             <tr id="template-note" class="naan-template">
                 <td>
-                    <div style="border: solid 1px #CCC; border-radius: 6px; padding: 6px; margin: .5em 0em; background-color: rgba(255,255,240,.85); box-shadow: 4px 4px 5px rgba(0,0,0,.25);">
-                        <div class="t-content notecard-content" contenteditable></div>
+                    <div style="border: solid 1px #CCC; border-radius: 6px; padding: 6px; margin: .25em 0em; background-color: rgba(255,255,240,.85); box-shadow: 4px 4px 5px rgba(0,0,0,.25);">
+                        <div class="t-content notecard-content" style='padding: 2px 4px' contenteditable></div>
                         <div style="border-top: dotted 1px #DDD">
                             <div class="pull-right">
                                 
@@ -78,10 +101,11 @@
                         <div class='t-rank' style='display: none; padding: .5em 1em; margin: 1em 0em'>
     
                             <div style='float: left; width: 20em'>
+                            <h4>Personal Rating</h4>
                             <table >
                                 <tbody>
-                                    <tr>
-                                        <td style='padding-right: 1em'>Relevance to topic</td>                                        
+                                    <tr style='border-bottom: dotted 1px gray'>
+                                        <td style='padding-right: 1em'>Overall Ranking</td>                                        
                                         <td style='padding-right: 1em'>
                                             <a href="#" title="none"><i class="icon-star"></i></a>
                                             <a href="#" title="low"><i class="icon-star"></i>
@@ -89,6 +113,18 @@
                                             <a href="#" title="excellent"><i class="icon-star-empty"></i></a>
                                         </td>
                                         <td>
+                                            <a href="#" title="Remove my ranking"><i class="icon-remove-circle"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style='padding-right: 1em; padding-top: .75em'>Relevance to topic</td>                                        
+                                        <td style='padding-right: 1em; padding-top: .75em'>
+                                            <a href="#" title="none"><i class="icon-star"></i></a>
+                                            <a href="#" title="low"><i class="icon-star"></i>
+                                            <a href="#" title="good"><i class="icon-star"></i>
+                                            <a href="#" title="excellent"><i class="icon-star-empty"></i></a>
+                                        </td>
+                                        <td style='padding-top: .75em'>
                                             <a href="#" title="Remove my ranking"><i class="icon-remove-circle"></i></a>
                                         </td>
                                     </tr>
@@ -117,6 +153,10 @@
                             </div>
                              
                              <div style='margin-left: 24em'>
+                                <h4>Feedback to author</h4>
+                                <p>
+                                    [ ] Worth refinging [ ] Too long  [ ] etc.
+                                </p>
                                 <h4>Listed under the topics:</h4>
                                 <ul>
                                     <li>Add new...</li>
@@ -149,6 +189,8 @@
     </div>
    </div>
    
+   <div style='margin-bottom: 12em'></div>
+   
 {% endblock %}
 
 {% block script_content %}
@@ -158,6 +200,23 @@
     
 
     $(function() {
+    
+        // These need to be registered at the document level or else
+        // Chrome seems to grab them first.
+        $(document).bind('keydown', function(e) {
+            if (e.keyCode == 50 && e.ctrlKey == true)
+            {
+                document.execCommand("InsertUnorderedList", false, '');
+                e.preventDefault();
+            }
+        });
+        
+        $("#create-notecard").click(function() {
+            NoteDb.add({ 
+                content : "",
+            });
+            return false;
+        });
     
         $("#topic").keypress(function(e) {
             if (e.keyCode == 13)
@@ -198,7 +257,10 @@
                 });
                 $content.keypress(function(e) {
                     if (e.keyCode == 10 && e.ctrlKey == true)
+                    {
+                        e.preventDefault();
                         $(this).blur();
+                    }
                 });
                 
                 $e.find('.t-rank-button').click(function() {
@@ -257,16 +319,16 @@
             {
                 var self = this;
                 naan.ajaxPostJSON("/api/notecards", note, function(json) {                
-                    success(note);
+                    note.id = json.id;
+                    if (success)
+                        success(note);
                     self._notifyAdd(note);
                 });
             },
             
             update : function (id, params)
             {
-                console.log("Updating...");
                 naan.ajaxPutJSON('/api/notecards/' + id, params, function (json) {
-                    console.log("Success");
                     self._notifyUpdate(id, params);
                 });
             },

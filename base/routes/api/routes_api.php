@@ -179,11 +179,13 @@ function routes_post_api_notecards()
     
     if ($data)
     {
-        naan_db_add_row('notecard_notes', array(
+        $id = naan_db_add_row('notecard_notes', array(
             'owner_id' => $user_id,
             'content' => $data['content']
         ));
-        return naan_json_success();
+        return naan_json_success(array(
+            'id' => $id
+        ));
     }
     return naan_json_error();
 }
